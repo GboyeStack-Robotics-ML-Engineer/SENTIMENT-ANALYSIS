@@ -25,11 +25,11 @@ To run this app locally, follow these steps:
 Clone the repository:
 In git bash run the commands below: 
 ```
->> git clone https://github.com/your-username/your-repo.git
+>> git clone https://github.com/GboyeStack-Robotics-ML-Engineer/SENTIMENT-ANALYSIS.git
 ```
 Navigate to the project directory:
 ```
->> cd your-repo
+>> cd SENTIMENT-ANALYSIS
 ```
 Install the required dependencies:
 ```
