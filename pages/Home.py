@@ -2,6 +2,7 @@ import streamlit as st
 import time
 from streamlit.components.v1 import html
 
+
 placeholder=st.empty()
 def app():
     # Displaying the logo and subtext with a nice color
