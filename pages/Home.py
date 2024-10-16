@@ -102,7 +102,7 @@ def app():
             with st.spinner("Loading..."):
                time.sleep(2) 
            
-            st.switch_page('pages\Inference.py')
+            st.switch_page('pages/Inference.py')
     
 
     # Loading animation
