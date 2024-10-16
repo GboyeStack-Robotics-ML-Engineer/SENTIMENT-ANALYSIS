@@ -1,5 +1,5 @@
 import streamlit as st
-st.set_page_config(page_title="SENTIMENT ANALYSER",layout='centered')
+st.set_page_config(page_title="SENTIMENT ANALYSER",layout='wide')
 
 
 # Set page title and configuration
@@ -50,10 +50,10 @@ selected_app = st.sidebar.selectbox(
 # Define a function to render the selected app
 def render_app(selected_app):
     if selected_app == "Home":
-        st.switch_page('pages\Home.py')
+        st.switch_page(r'pages\Home.py')
         
     if selected_app == "INFERENCE":
-        st.switch_page('pages\Inference.py')
+        st.switch_page(r'pages\Inference.py')
 
 
 # Render the selected app in the main body
