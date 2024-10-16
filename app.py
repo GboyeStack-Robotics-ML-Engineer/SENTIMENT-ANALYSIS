@@ -51,10 +51,10 @@ selected_app = st.sidebar.selectbox(
 # Define a function to render the selected app
 def render_app(selected_app):
     if selected_app == "Home":
-        st.switch_page("SENTIMENT-ANALYSIS\pages\Home.py")
+        st.switch_page("pages/Home.py")
         
     if selected_app == "INFERENCE":
-        st.switch_page("SENTIMENT-ANALYSIS\Inference.py")
+        st.switch_page("pages/Inference.py")
 
 
 # Render the selected app in the main body
