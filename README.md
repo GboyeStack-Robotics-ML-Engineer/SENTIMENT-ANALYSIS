@@ -47,7 +47,8 @@ Contributing
 4) Feel free to contribute to this project! You can submit issues, feature requests, or fork the repository and create a pull request.
 
 # Project View
-![Screenshot (166)](https://github.com/user-attachments/assets/df05294e-a049-49e5-abed-908774716f2d)
+![Screenshot (166)](https://github.com/user-attachments/assets/d8fec310-d1b7-4c3d-ad4b-8c55274e92d0)
+
 
 You can view the live project [here](https://mini-sentiment-analyser.streamlit.app/)
 
