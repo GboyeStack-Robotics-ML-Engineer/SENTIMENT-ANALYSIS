@@ -1,7 +1,9 @@
 altair==5.4.1
-pandas
+pandas==2.2.3
 protobuf
 python-dotenv
 streamlit==1.34.0
 streamlit_option_menu==0.3.12
+torch==2.2.2
+transformers==4.39.3
 google-generativeai

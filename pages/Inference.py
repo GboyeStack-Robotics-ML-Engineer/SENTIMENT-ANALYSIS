@@ -1,10 +1,6 @@
 # # Load model directly
-# from transformers import AutoTokenizer, AutoModelForSequenceClassification
-
-# tokenizer = AutoTokenizer.from_pretrained("lxyuan/distilbert-base-multilingual-cased-sentiments-student")
-# model = AutoModelForSequenceClassification.from_pretrained("lxyuan/distilbert-base-multilingual-cased-sentiments-student")
-
-
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+import torch
 import streamlit as st
 import streamlit.components.v1 as comp
 import time
@@ -35,6 +31,10 @@ model = genai.GenerativeModel(
   generation_config=generation_config,
                             )
 
+
+tokenizer = AutoTokenizer.from_pretrained("lxyuan/distilbert-base-multilingual-cased-sentiments-student")
+sentiment_classifier= AutoModelForSequenceClassification.from_pretrained("lxyuan/distilbert-base-multilingual-cased-sentiments-student")
+
 def response_generator(session,prompt):
     response = session.send_message(prompt)
     response=response.text
@@ -53,7 +53,13 @@ def sentence_generator(sentence):
     
 def generate(prompt):
     
-        sentiment_scores=[0.5,0.9,0.6]
+        encoded_prompt=tokenizer(prompt,padding='longest',add_special_tokens=True)
+        
+        tokenized_prompt= tokenizer(prompt, return_tensors="pt")
+        outputs = sentiment_classifier(**tokenized_prompt)
+        outputs=torch.nn.functional.softmax(outputs.logits, dim=-1)
+        
+        sentiment_scores=outputs.detach().numpy().tolist()[0]
     
         return sentiment_scores
     

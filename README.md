@@ -46,5 +46,12 @@ In git bash run the commands below:
 Contributing
 4) Feel free to contribute to this project! You can submit issues, feature requests, or fork the repository and create a pull request.
 
+# Project View
+![Screenshot (166)](https://github.com/user-attachments/assets/d8fec310-d1b7-4c3d-ad4b-8c55274e92d0)
+
+
+You can view the live project [here](https://mini-sentiment-analyser.streamlit.app/)
+
+
 # License
 This project is licensed under the MIT License - see the LICENSE file for details.
