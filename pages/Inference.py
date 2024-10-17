@@ -170,7 +170,7 @@ else:
                 text_score_mapper[text]=Review_name[generate(str(text)).index(max(generate(str(text))))]
                 
                 my_bar.progress(int((index_/(len(data[input_col].to_list())-1)*100)),text='Analysing ....')
-                
+            my_bar.empty() 
             #text_score_mapper={text:Review_name[generate(str(text)).index(max(generate(str(text))))] for text in data[input_col].to_list()}
             
             data['sentiment_class']=data[input_col].map(text_score_mapper)
