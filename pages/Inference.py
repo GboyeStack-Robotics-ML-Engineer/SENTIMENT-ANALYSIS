@@ -173,32 +173,32 @@ else:
             
             tab1,tab2=st.tabs(['ANALYSIS','SUMMARY'])
         
-        with tab1:
-            
-            scores_data=pd.DataFrame({'Reviews':reviews_name,'Sentiment Scores': sentiment_scores})
-        
-            
-            chart=alt.Chart(scores_data).mark_bar(width=100,height=60,color='green',).encode(
-                                                    y=alt.Y('Reviews:N',sort=None),
-                                                    x=alt.X('Sentiment Scores:Q') 
-                                                    )
-            
-            st.altair_chart(chart, theme="streamlit", use_container_width=True)
-            
-        with tab2:
-            
-            if "messages" not in st.session_state:
-                st.session_state.messages = [{"role": "model", 'content': 'Hey....I am Jarvis your personalized Sentiment Analysis Bot...\nRead the detailed analysis below.'}]
+            with tab1:
                 
-            history=[{"role":message['role'],"parts":[message['content'],]} for message in st.session_state.messages]
+                scores_data=pd.DataFrame({'Reviews':reviews_name,'Sentiment Scores': sentiment_scores})
             
-            message=st.write_stream(sentence_generator('Hey....I am Jarvis your personalized Sentiment Analysis Bot...\nRead the detailed analysis below.'))
-            chat_session = model.start_chat(history=history)
-            
-            prompt=f"You are a Ai assistant built to analyse sentiments in text. You are provided with the following input texts by the user from an uploaded csv file and the following sentiments were deduced {data['sentiment_class'].values}.Based on this we can infer an overal statisitcs of the number of times a particular sentiment occurs as given by {data['sentiment_class'].value_counts()}.Based on this you are to provide a detailed, understandable , not too long explanation of why the such certain sentiment type appears to be more dominant than the other. Focus you explanation on all the sentiment types.\n\nInput Text:{data[input_col].values}"
-            #st.write(prompt)
-            response = st.write_stream(response_generator(session=chat_session,prompt=prompt))
-            
+                
+                chart=alt.Chart(scores_data).mark_bar(width=100,height=60,color='green',).encode(
+                                                        y=alt.Y('Reviews:N',sort=None),
+                                                        x=alt.X('Sentiment Scores:Q') 
+                                                        )
+                
+                st.altair_chart(chart, theme="streamlit", use_container_width=True)
+                
+            with tab2:
+                
+                if "messages" not in st.session_state:
+                    st.session_state.messages = [{"role": "model", 'content': 'Hey....I am Jarvis your personalized Sentiment Analysis Bot...\nRead the detailed analysis below.'}]
+                    
+                history=[{"role":message['role'],"parts":[message['content'],]} for message in st.session_state.messages]
+                
+                message=st.write_stream(sentence_generator('Hey....I am Jarvis your personalized Sentiment Analysis Bot...\nRead the detailed analysis below.'))
+                chat_session = model.start_chat(history=history)
+                
+                prompt=f"You are a Ai assistant built to analyse sentiments in text. You are provided with the following input texts by the user from an uploaded csv file and the following sentiments were deduced {data['sentiment_class'].values}.Based on this we can infer an overal statisitcs of the number of times a particular sentiment occurs as given by {data['sentiment_class'].value_counts()}.Based on this you are to provide a detailed, understandable , not too long explanation of why the such certain sentiment type appears to be more dominant than the other. Focus you explanation on all the sentiment types.\n\nInput Text:{data[input_col].values}"
+                #st.write(prompt)
+                response = st.write_stream(response_generator(session=chat_session,prompt=prompt))
+                
             
             
     else:
