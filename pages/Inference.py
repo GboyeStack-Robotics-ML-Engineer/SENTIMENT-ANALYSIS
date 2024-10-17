@@ -128,7 +128,7 @@ if option == "Single Text Analysis":
             message=st.write_stream(sentence_generator('Hey....I am Jarvis your personalized Sentiment Analysis Bot...\nRead the detailed analysis below.'))
             chat_session = model.start_chat(history=history)
             
-            prompt=f'You are a Ai assistant built to analyse sentiments in text. You are provided with the following input text by the user and the corresponding sentiment scores in the format[Postive Score, Neutral Score, Negative Score], you are to give a detailed, understandable , not too long explanation of why the scores are matched like that.\n\n Input text:\n\n{input_text}\n\nSentiment scores: {scores}'
+            prompt=f'You are a Ai assistant built to analyse sentiments in text. You are provided with the following input text by the user and the corresponding sentiment scores in the format {Review_name}, you are to give a detailed, understandable , not too long explanation of why the scores are matched like that.\n\n Input text:\n\n{input_text}\n\nSentiment scores: {scores}'
             #st.write(prompt)
             response = st.write_stream(response_generator(session=chat_session,prompt=prompt))
 
