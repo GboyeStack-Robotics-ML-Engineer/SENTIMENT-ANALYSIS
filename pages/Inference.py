@@ -155,15 +155,23 @@ else:
             
             my_bar = st.progress(0, text='Analysing')
             
-            for i in range(100):
-                time.sleep(0.01)
-                my_bar.progress(i+1, text='Analysing ....')
+            # for i in range(100):
+            #     time.sleep(0.01)
+            #     my_bar.progress(i+1, text='Analysing ....')
         
 
-            time.sleep(0.1)  # Small delay for animation
-            my_bar.empty()
-
-            text_score_mapper={text:Review_name[generate(str(text)).index(max(generate(str(text))))] for text in data[input_col].to_list()}
+            # time.sleep(0.1)  # Small delay for animation
+            # my_bar.empty()
+            
+            text_score_mapper={}
+            
+            for index_,text in enumerate(data[input_col].to_list()):
+                
+                text_score_mapper[text]=Review_name[generate(str(text)).index(max(generate(str(text))))]
+                
+                my_bar.progress(int((index_/(len(data[input_col].to_list())-1)*100)),text='Analysing ....')
+                
+            #text_score_mapper={text:Review_name[generate(str(text)).index(max(generate(str(text))))] for text in data[input_col].to_list()}
             
             data['sentiment_class']=data[input_col].map(text_score_mapper)
             
