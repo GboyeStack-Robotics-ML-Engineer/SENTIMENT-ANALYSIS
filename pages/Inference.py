@@ -60,6 +60,8 @@ def generate(prompt):
         outputs=torch.nn.functional.softmax(outputs.logits, dim=-1)
         
         sentiment_scores=outputs.detach().numpy().tolist()[0]
+        
+        sentiment_scores=[0.2,0.7,0.6]
     
         return sentiment_scores
     
@@ -109,13 +111,11 @@ if option == "Single Text Analysis":
         with tab1:
             
             scores_data=pd.DataFrame({'Reviews':Review_name,'Sentiment Scores': scores})
-            
-
-            #st.bar_chart(scores_data,x='Reviews',y='Sentiment Scores',width=50,height=500)
+        
             
             chart=alt.Chart(scores_data).mark_bar(width=100,height=60,color='green',).encode(
-                                                    y='Reviews:O',
-                                                    x='Sentiment Scores:Q',
+                                                    y=alt.Y('Reviews:N',sort=None),
+                                                    x=alt.X('Sentiment Scores:Q') 
                                                     )
             
             st.altair_chart(chart, theme="streamlit", use_container_width=True)
