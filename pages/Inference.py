@@ -60,6 +60,8 @@ def generate(prompt):
         outputs=torch.nn.functional.softmax(outputs.logits, dim=-1)
         
         sentiment_scores=outputs.detach().numpy().tolist()[0]
+        
+        # sentiment_scores=[0.3,0.8,0.9]
             
         return sentiment_scores
     
@@ -131,6 +133,78 @@ if option == "Single Text Analysis":
             prompt=f'You are a Ai assistant built to analyse sentiments in text. You are provided with the following input text by the user and the corresponding sentiment scores in the format {Review_name}, you are to give a detailed, understandable , not too long explanation of why the scores are matched like that.\n\n Input text:\n\n{input_text}\n\nSentiment scores: {scores}'
             #st.write(prompt)
             response = st.write_stream(response_generator(session=chat_session,prompt=prompt))
+            
+else:
+    st.subheader("Upload CSV File")
+    data_file = st.file_uploader("Upload Training Data (CSV)", type=["csv"])
+
+    if data_file is not None:
+        # Read the CSV data into a Pandas DataFrame
+        data = pd.read_csv(data_file)
+        #st.write("Data Preview:")
+        #st.write(data.head())
+
+        # Select input and target columns
+        input_col = st.selectbox("Select Input Column", data.columns)
+                
+        if st.button("ANALYSE"):
+            
+            Review_name=['Positive','Neutral','Negative']
+            
+            # st.success('Succesfull 🎉🎉🎉')
+            
+            my_bar = st.progress(0, text='Analysing')
+            
+            for i in range(100):
+                time.sleep(0.01)
+                my_bar.progress(i+1, text='Analysing ....')
+        
+
+            time.sleep(0.1)  # Small delay for animation
+            my_bar.empty()
+
+            text_score_mapper={text:Review_name[generate(str(text)).index(max(generate(str(text))))] for text in data[input_col].to_list()}
+            
+            data['sentiment_class']=data[input_col].map(text_score_mapper)
+            
+            reviews_name=dict(data['sentiment_class'].value_counts()).keys()
+            
+            sentiment_scores=dict(data['sentiment_class'].value_counts()).values()
+            
+            tab1,tab2=st.tabs(['ANALYSIS','SUMMARY'])
+        
+        with tab1:
+            
+            scores_data=pd.DataFrame({'Reviews':reviews_name,'Sentiment Scores': sentiment_scores})
+        
+            
+            chart=alt.Chart(scores_data).mark_bar(width=100,height=60,color='green',).encode(
+                                                    y=alt.Y('Reviews:N',sort=None),
+                                                    x=alt.X('Sentiment Scores:Q') 
+                                                    )
+            
+            st.altair_chart(chart, theme="streamlit", use_container_width=True)
+            
+        with tab2:
+            
+            if "messages" not in st.session_state:
+                st.session_state.messages = [{"role": "model", 'content': 'Hey....I am Jarvis your personalized Sentiment Analysis Bot...\nRead the detailed analysis below.'}]
+                
+            history=[{"role":message['role'],"parts":[message['content'],]} for message in st.session_state.messages]
+            
+            message=st.write_stream(sentence_generator('Hey....I am Jarvis your personalized Sentiment Analysis Bot...\nRead the detailed analysis below.'))
+            chat_session = model.start_chat(history=history)
+            
+            prompt=f"You are a Ai assistant built to analyse sentiments in text. You are provided with the following input texts by the user from an uploaded csv file and the following sentiments were deduced {data['sentiment_class'].values}.Based on this we can infer an overal statisitcs of the number of times a particular sentiment occurs as given by {data['sentiment_class'].value_counts()}.Based on this you are to provide a detailed, understandable , not too long explanation of why the such certain sentiment type appears to be more dominant than the other. Focus you explanation on all the sentiment types.\n\nInput Text:{data[input_col].values}"
+            #st.write(prompt)
+            response = st.write_stream(response_generator(session=chat_session,prompt=prompt))
+            
+            
+            
+    else:
+        st.error('Upload CSV file containing data to analyse')
+
+    
 
 
             
